@@ -38,6 +38,39 @@ public class Rotation {
 	}
 	
 	/*
+	 * reversal algorithm
+	 * 
+	 * divide A[N] into B[0, d-1], C[d, n-1]
+	 * reverse B to get rB C, where rB is reverse of B
+	 * reverse C to get rB rC, where rC is reverse of C
+	 * 
+	 * reverse all, we get r(rB rC) 
+	 */
+	void reverse(int d) {
+		// reverse B to get rB C, where rB is reverse of B
+		int n = d-1;
+		int i = 0;
+		for (i = 0; i <d/2; i++ ) {
+			swap(i, n-i);
+		}
+		n = A.length-1;
+		// reverse C to get rB rC, where rC is reverse of C
+		for ( i = 0; i < (A.length - d) / 2 ; i++) {
+			swap(d+i, n - i);
+		}
+		// reverse all, we get r(rB rC) 
+		for ( i = 0; i < n / 2; i++  ) {
+			swap(i, n-i);
+		}
+	}
+	
+	void swap(int h, int t) {
+		int tmp = A[h];
+		A[h] = A[t];
+		A[t] = tmp;
+	}
+	
+	/*
 	 * use tmp space
 	 * 
 	 * 1. store the elements needed to rotate into tmp[d] 
@@ -97,7 +130,7 @@ public class Rotation {
 	public static void main(String[] args) {
 		Rotation r = new Rotation(10);
 		r.display("original");
-		r.leftRotate(2);
+		r.reverse(2);
 		r.display("after rotated 2 elements");
 	}
 }
