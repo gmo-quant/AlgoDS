@@ -61,6 +61,26 @@ public class Rotation {
 		}
 	}
 	
+	/*
+	 * use a helper function rotate1()
+	 */
+	void leftRotate(int d) {
+		for (int i = 0; i < d; i++) {
+			rotate1();
+		}
+	}
+	/*
+	 * rotate1()
+	 * rotate one element at a time
+	 */
+	void rotate1() {
+		int tmp = A[0];
+		int i = 0;
+		for (; i < A.length - 1; i++){
+			A[i] = A[i+1];
+		}
+		A[i] = tmp;
+	}
 	
 	/*
 	 * display the result 
@@ -77,7 +97,7 @@ public class Rotation {
 	public static void main(String[] args) {
 		Rotation r = new Rotation(10);
 		r.display("original");
-		r.rotate(2);
+		r.leftRotate(2);
 		r.display("after rotated 2 elements");
 	}
 }
