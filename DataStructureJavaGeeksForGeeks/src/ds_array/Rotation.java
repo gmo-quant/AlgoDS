@@ -38,6 +38,86 @@ public class Rotation {
 	}
 	
 	/*
+	 * block swap algorithm
+	 * divide A[N] into B[0, d-1] , C[d, n-1]
+	 * 
+	 * while C.length != B.length
+	 * 		if B.length < C.length
+	 * 			divide C[] into Cl and Cr , where Cr.length == B.length
+	 * 			swap B with Cr, so that change B Cl Cr into Cr Cl B
+	 * 				so that B is at its final place
+	 * 			recur on pieces on C 
+	 * 		
+	 * 		else B.length > C.length
+	 * 			divide  B[] into Bl and Br, where Bl.length == C.length
+	 * 			swap Bl with C, so that change Bl Br C into C Br Bl
+	 * 				so that C is at its final place
+	 * 			recur on pieces on B
+	 * 
+	 * finally, while B.length == C.length , block swap them
+	 */
+	
+	/*
+	 * recursive implementation
+	 * @param d: length of B
+	 * @param n : length of C
+	 */
+	void blockSwapRecursive(int d, int n) {
+		if (0 == d || d == n) {
+			return;
+		}
+		// if number of elements to be rotated is exactly 
+		// half of array size
+		// block swap them
+		if (d == n - d) {
+			swap(0, d, n-d);
+		}
+		// if B.length < C.length
+		if (d < n-d) {
+			swap(0, n-d, d);
+			blockSwapRecursive(d, n-d);
+		}
+		else {
+			swap(0, d, n-d);
+			blockSwapRecursive(2*d-n, d);
+		}
+		
+	}
+	
+	
+	
+	/*
+	 * iterative implementation
+	 * 
+	 */
+	void blockSwap(int d) {
+		
+		if ( 0 == d || d == A.length) {
+			return;
+		}
+		
+		int m = d; // length of sub-array B[]
+		int n = A.length-d; // length of sub-array C[]
+		while (m != n) {
+			if (m < n) {
+//				swap(d-m, )
+			}
+		}
+	}
+	/*
+	 * swap d elements starting at bs with d elements starting as cs
+	 */
+	private void swap(int bs, int cs, int d) {
+		int tmp = 0;
+		for (int i = 0; i < d; i++) {
+			tmp = A[bs+i];
+			A[bs+i] = A[cs+i];
+			A[cs+i] = tmp;
+		}
+	}
+	
+	
+	/*
 	 * reversal algorithm
 	 * 
 	 * divide A[N] into B[0, d-1], C[d, n-1]
@@ -64,7 +144,7 @@ public class Rotation {
 		}
 	}
 	
-	void swap(int h, int t) {
+	private void swap(int h, int t) {
 		int tmp = A[h];
 		A[h] = A[t];
 		A[t] = tmp;
@@ -106,7 +186,7 @@ public class Rotation {
 	 * rotate1()
 	 * rotate one element at a time
 	 */
-	void rotate1() {
+	private void rotate1() {
 		int tmp = A[0];
 		int i = 0;
 		for (; i < A.length - 1; i++){
@@ -128,9 +208,10 @@ public class Rotation {
 	}
 	
 	public static void main(String[] args) {
-		Rotation r = new Rotation(10);
+		int n = 10;
+		Rotation r = new Rotation(n);
 		r.display("original");
-		r.reverse(2);
-		r.display("after rotated 2 elements");
+		r.blockSwapRecursive(5, n);
+		r.display("after rotated 5 elements");
 	}
 }
